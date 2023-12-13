@@ -3,28 +3,23 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 
-const corsConfig = require("./middlewares/corsConfig");
-const requireAuth = require("./middlewares/requireAuth");
-
-const rootRouter = require("./routes/rout");
+const rootRouter = require("./routes/root");
 const userRoutes = require("./routes/user");
 const workoutRoutes = require("./routes/workouts");
-
 
 // express app
 const app = express();
 
 // static folder
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 // middlewares
-app.use(corsConfig);
 app.use(express.json());
 
 // routes
-app.use("/", rootRouter);
 app.use("/api/workouts", workoutRoutes);
 app.use("/api/user", userRoutes);
+app.use("/", rootRouter);
 
 // connect to MongoDB
 mongoose
@@ -42,5 +37,3 @@ mongoose
 	.catch((err) => {
 		console.log(err);
 	});
-
-module.exports = app;
